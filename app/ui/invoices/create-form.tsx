@@ -9,10 +9,16 @@ import {
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '../button';
+import { createInvoice } from '@/app/lib/actions';
+import { useFormState } from 'react-dom';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
+  const initialState = { message: null, errors: {} };
+
+  const [state, dispatch] = useFormState(createInvoice, initialState);
+
   return (
-    <form>
+    <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
@@ -47,6 +53,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
+                required
                 id="amount"
                 name="amount"
                 type="number"
@@ -57,7 +64,6 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               <CurrencyDollarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          s
         </div>
 
         {/* Invoice Status */}
@@ -69,6 +75,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
             <div className="flex gap-4">
               <div className="flex items-center">
                 <input
+                  required
                   id="pending"
                   name="status"
                   type="radio"
@@ -84,6 +91,7 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
               </div>
               <div className="flex items-center">
                 <input
+                  required
                   id="paid"
                   name="status"
                   type="radio"
